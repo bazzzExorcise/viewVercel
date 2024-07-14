@@ -47,6 +47,10 @@ app.get("/", (req, res) => {
     .catch((error) => res.status(500).send(error.message));
 });
 
+app.get("/hello", (req, res) => {
+  res.status(200).send("Hello World");
+});
+
 app.listen(port, () => {
   console.log(`nodemailerProject is listening at http://localhost:${port}`);
 });
