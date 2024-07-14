@@ -84,7 +84,7 @@ const Scan = () => {
         console.log(s)
 
         axios
-        .get("http://localhost:5000/", {
+        .get("https://view-vercel.vercel.app", {
           params: {
             "email" : x,
             "subject" : `**Berhasil melakukan absensi pada pelajaran ${s}**`,

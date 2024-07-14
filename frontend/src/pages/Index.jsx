@@ -67,7 +67,7 @@ const Index = () => {
             const hari = getIndonesianWeekdayName(new Date())
   
             axios
-            .get("http://localhost:5000/", {
+            .get("https://view-vercel.vercel.app", {
               params: {
                 "email" : emailOrtu,
                 "subject" : `**Ananda ${siswa} belum melakukan absensi pada hari ${hari} **`,
