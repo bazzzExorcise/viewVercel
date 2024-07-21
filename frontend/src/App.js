@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import SignUpPage from './pages/SignUpPage';
 import Download from './pages/Download';
+import Jurnal from './pages/Jurnal';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/scan' element={<Scan/>} />
         <Route path='/signuppage' element={<SignUpPage/>} />
         <Route path='/admin' element={<Admin/>} />
+        <Route path='/jurnal' element={<Jurnal/>} />
         <Route path='/download-data' element={<Download/>} />
       </Routes>
     </Router>
