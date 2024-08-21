@@ -7,19 +7,13 @@ import axios from 'axios';
 
 const Scan = () => {
   const navigate = useNavigate()
-  const [data, setData] = useState("")
-  const [scan, setScan] = useState("")
-  const [email, setEmail] = useState("")
+  // const [data, setData] = useState("")
   const [error, setError] = useState("")
-  const [subject, setSubject] = useState("")
-  const [message, setMessage] = useState("")
-  const [user, setUser] = useState("")
-  const [inputHidden, setInputHidden] = useState("")
   
   useEffect(()=> {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"))
     const current = currentUser?.user?.email
-    setData(current)
+    // setData(current)
     if(currentUser == null) {
       navigate("/login")
     }
@@ -34,61 +28,64 @@ const Scan = () => {
           weekday: 'long',
           year: 'numeric',
           month: 'long',
-          day: 'numeric',
-          hour: 'numeric',
+          day: 'numeric',hour: 'numeric',
           minute: 'numeric',
-          timeZone: 'Asia/Jakarta' // Adjust if needed (see IANA time zones)
+          timeZone: 'Asia/Jakarta' 
       };
   
       const formatter = new Intl.DateTimeFormat('id-ID', options);
       return formatter.format(date);
     }  
 
-    function getIndonesianWeekdayName(date) {
-      const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-      const day = date.getDay();
-      return weekdays[day];
-    }    
+    // function getIndonesianWeekdayName(date) {
+    //   const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    //   const day = date.getDay();
+    //   return weekdays[day];
+    // }    
 
     const addData = async (s) => {
       try {
+        const sr = s.split("-")
+        const subject = sr[0]
+        const teacher = sr[1]
 
         let x;
         let z;
+        let y;
 
         const i = query(collection(db, 'user'), where("email", "==", current))
         const q = await getDocs(i);
         q.forEach((doc) => {
           x = doc.data().email_wali
+          y = doc.data().class
           z = doc.data().username
         })
 
-        const hari = getIndonesianWeekdayName(new Date())
-
+        const hari = formatFirestoreDateInIndonesian(new Date())
         const addScanData = await addDoc(collection(db, "absen"), {
           email: current,
-          scan_result: s,
+          scan_result: subject,
+          teacher,
+          class : y,
           timestamp: Timestamp.now(),
-          waktu_absen: formatFirestoreDateInIndonesian(new Date()), // Time and day in Indonesian
-          waktu_detail: { // Separate timestamp fields
+          waktu_absen: formatFirestoreDateInIndonesian(new Date()), 
+          waktu_detail: { 
             hari: hari,
             days: new Date().getDay(),
             hour: new Date().getHours(),
             minute: new Date().getMinutes(),
             second: new Date().getSeconds(),
             day: new Date().getDate(),
-            month: new Date().getMonth() + 1 // Months are zero-indexed
+            month: new Date().getMonth() + 1 
           }
         })
-
-        console.log(s)
 
         axios
         .get("https://view-vercel.vercel.app", {
           params: {
             "email" : x,
-            "subject" : `**Berhasil melakukan absensi pada pelajaran ${s}**`,
-            "message" : `ananda ${z} telah melakukan absesi pada mata pelajaran ${i} pada tanggal ${hari}`,
+            "subject" : `**Berhasil melakukan absensi pada pelajaran ${subject}**`,
+            "message" : `ananda ${z} telah melakukan absesi pada mata pelajaran ${subject} pada tanggal ${hari}`,
           },
         })
         .then(() => {
@@ -99,15 +96,13 @@ const Scan = () => {
           console.log("failure");
         });
 
-        console.log(addScanData)
         navigate("/")  
+        console.log(addScanData)
       } catch(err) {
         console.log(err)
         setError(err)
       }
     }
-
-    
 
     var html5QrcodeScanner = new Html5QrcodeScanner(
       "reader",

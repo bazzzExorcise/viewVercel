@@ -30,7 +30,7 @@ const Index = () => {
           setData(doc.data())
           emailOrtu = doc.data().email_wali
           siswa = doc.data().username
-          console.log(doc.data());
+
         })
       } catch (error) {
         console.log('Error fetching data:', error);
@@ -58,7 +58,7 @@ const Index = () => {
           console.log("aman cuiy")
         }else{
           if(x > 0) {
-            console.log(x)
+            // console.log(x)
             function getIndonesianWeekdayName(date) {
               const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
               const day = date.getDay();
@@ -74,13 +74,13 @@ const Index = () => {
                 "message" : `Ananda ${siswa} belum melakukan absens pada hari ${hari}, mohon untuk perhatian selalu malkukan absensii tepat waktu`,
               },
             })
-            .then(() => {
-              //success
-              console.log("success");
-            })
-            .catch(() => {
-              console.log("failure");
-            });
+            // .then(() => {
+            //   //success
+            //   console.log("success");
+            // })
+            // .catch(() => {
+            //   console.log("failure");
+            // });
           }
         }
 

@@ -1,0 +1,10 @@
+const processedData = data?.reduce((acc, curr) => {
+      const key = `${curr.teacher}-${curr.class}-${curr.waktu_detail.day}-${curr.waktu_detail.day}-${curr.waktu_detail.hour}`;
+      if (!acc[key]) {
+        acc[key] = { ...curr };
+      }
+      return acc;
+    }, {})
+  
+    const outputData = Object.values(processedData);
+    console.log(outputData)
