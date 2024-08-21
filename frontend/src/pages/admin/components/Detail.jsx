@@ -13,7 +13,7 @@ const Detail = (props) => {
     let link = ''
 
     for (let i = 0; i <= text.length - 1; i++) {
-      if( i == text.length - 1 ) {
+      if( i == text.length ) {
         link += text[i]
       }else{
         link += text[i] + "_";
