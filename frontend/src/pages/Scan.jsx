@@ -37,15 +37,15 @@ const Scan = () => {
       return formatter.format(date);
     }  
 
-    // function getIndonesianWeekdayName(date) {
-    //   const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-    //   const day = date.getDay();
-    //   return weekdays[day];
-    // }    
+    function getIndonesianWeekdayName(date) {
+      const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const day = date.getDay();
+      return weekdays[day];
+    }    
 
     const addData = async (s) => {
       try {
-        const sr = s.split("-")
+        const sr = s.split("_")
         const subject = sr[0]
         const teacher = sr[1]
 

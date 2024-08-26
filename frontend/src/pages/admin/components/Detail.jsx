@@ -13,7 +13,7 @@ const Detail = (props) => {
     let link = ''
 
     for (let i = 0; i <= text.length - 1; i++) {
-      if( i == text.length ) {
+      if( i == text.length - 1 ) {
         link += text[i]
       }else{
         link += text[i] + "_";
@@ -40,7 +40,7 @@ const Detail = (props) => {
 
         <div className="px-3 pb-3 even:bg-gray-50">
           <dd className="text-gray-700 flex gap-1 w-full">
-            <Link to={"/admin/"+ makeProfileLink(teacher)+ '/' + id} className=' bg-black text-white px-3 py-2 rounded'>edit data</Link>
+            <Link to={"/admin/edit" + '/' + id} className=' bg-black text-white px-3 py-2 rounded'>edit data</Link>
             <Link to={makeProfileLink(teacher)} className=' bg-black text-white px-3 py-2 rounded'>profile</Link>
           </dd>
         </div>

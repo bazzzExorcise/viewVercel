@@ -15,7 +15,8 @@ const Admin = () => {
         temData.push({id : doc.id, data : doc.data()})
       })
       const processedData = temData.reduce((acc, curr) => {
-        const key = `${curr.data.teacher}-${curr.data.class}-${curr.data.waktu_detail.day}-${curr.data.waktu_detail.day}-${curr.data.waktu_detail.hour}`;
+        const key = `${curr.data.teacher}-${curr.data.class}-${curr.data.waktu_detail.day}
+                    -${curr.data.waktu_detail.day}-${curr.data.waktu_detail.hour}`;
         if (!acc[key]) {
           acc[key] = { ...curr };
         }

@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import axios from "axios";
-import { ButtonCardBg } from "../components/ButtonCard";
+import { ButtonCardBg, ButtonCardBorder } from "../components/ButtonCard";
 import { useNavigate } from "react-router-dom";
 import { GoDotFill } from "react-icons/go";
 import { useEffect, useState } from "react";
@@ -41,49 +41,51 @@ const Index = () => {
       const day   = new Date().getDate()
       const x   = new Date().getDay()
       const month = new Date().getMonth() + 1
+      const hour = new Date().getHours()
 
       try {
-        const i = query(collection(db, 'absen'),
-                    where("email", "==", current), 
-                    where("waktu_detail.day", '==', day),
-                    where("waktu_detail.month", '==', month),
-                    where("waktu_detail.hour", '<', 1)
-                  )
-        const q = await getDocs(i)
-        q.forEach((doc) => {
-          const data = doc.data().scan_result
-          console.log(data)
-        })
-        if(q.docs.length > 0){
-          console.log("aman cuiy")
-        }else{
-          if(x > 0) {
-            // console.log(x)
-            function getIndonesianWeekdayName(date) {
-              const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-              const day = date.getDay();
-              return weekdays[day];
-            }   
-            const hari = getIndonesianWeekdayName(new Date())
-  
-            axios
-            .get("https://view-vercel.vercel.app", {
-              params: {
-                "email" : emailOrtu,
-                "subject" : `**Ananda ${siswa} belum melakukan absensi pada hari ${hari} **`,
-                "message" : `Ananda ${siswa} belum melakukan absens pada hari ${hari}, mohon untuk perhatian selalu malkukan absensii tepat waktu`,
-              },
-            })
-            // .then(() => {
-            //   //success
-            //   console.log("success");
-            // })
-            // .catch(() => {
-            //   console.log("failure");
-            // });
+        if( hour > 8 ) {
+          const i = query(collection(db, 'absen'),
+                      where("email", "==", current), 
+                      where("waktu_detail.day", '==', day),
+                      where("waktu_detail.month", '==', month)
+                      // where("waktu_detail.hour", '<', 9)
+                    )
+          const q = await getDocs(i)
+          q.forEach((doc) => {
+            const data = doc.data().scan_result
+            console.log(data)
+          })
+          if(q.docs.length > 0){
+            console.log("aman cuiy")
+          }else{
+            if(x > 0) {
+              // console.log(x)
+              function getIndonesianWeekdayName(date) {
+                const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                const day = date.getDay();
+                return weekdays[day];
+              }   
+              const hari = getIndonesianWeekdayName(new Date())
+    
+              axios
+              .get("https://view-vercel.vercel.app", {
+                params: {
+                  "email" : emailOrtu,
+                  "subject" : `**Ananda ${siswa} belum melakukan absensi pada hari ${hari} **`,
+                  "message" : `Ananda ${siswa} belum melakukan absens pada hari ${hari}, mohon untuk perhatian selalu malkukan absensii tepat waktu`,
+                },
+              })
+              // .then(() => {
+              //   //success
+              //   console.log("success");
+              // })
+              // .catch(() => {
+              //   console.log("failure");
+              // });
+            }
           }
         }
-
       }catch(err) {
         console.log(err)  
       }
@@ -115,7 +117,10 @@ const Index = () => {
             <p className="px-1">{data.hp_wali}</p>
           </div>
         </div>
-        <ButtonCardBg to="/scan" text="scan mapel" />
+        <div className="w-full flex gap-4">
+          <ButtonCardBg to="/scan" text="scan mapel" />
+          <ButtonCardBorder to="/tugas" text="lihat tugas" />
+        </div>
         <div className="flex mt-4 items-center gap-2 w-full">
           <div className="border-b-2 border-black w-full"></div>
           <p>Riwayat</p>
