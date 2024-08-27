@@ -44,12 +44,21 @@ const DetailTugas = (props) => {
         </div>
 
         <div className="sm:flex sm:items-end sm:justify-end">
-          <Link
-            to={ props.id }
-            className="w-full sm:w-auto bg-black text-white px-5 py-3 text-center text-xs font-bold uppercase transition hover:bg-yellow-400"
-          >
-            buka link
-          </Link>
+          { tugasLink == 'no link profided' ? (
+            <Link
+              to={ props.id }
+              className="w-full sm:w-auto bg-black text-white px-5 py-3 text-center text-xs font-bold uppercase transition hover:bg-yellow-400"
+            >
+              buka link
+            </Link>
+          ) : (
+            <a
+              href={tugasLink}
+              className="w-full sm:w-auto bg-black text-white px-5 py-3 text-center text-xs font-bold uppercase transition hover:bg-yellow-400"
+            >
+              buka link
+            </a>
+          ) }
         </div>
       </div>
     </article>
