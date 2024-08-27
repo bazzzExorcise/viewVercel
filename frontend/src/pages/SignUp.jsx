@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config/firebase';
 import { Timestamp, addDoc, collection } from "firebase/firestore"; 
 import { useNavigate, Link } from 'react-router-dom';
+import { FaRegEye } from "react-icons/fa";
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -26,10 +27,57 @@ const SignUp = () => {
   const [username, setUsername] = useState("")
   const [uid, setUid] = useState("")
   const [classFor, setClassFor] = useState("")
+  const [inputType, setInputType] = useState('password');
+  const classForData = {
+    kelas_X: [
+      "X MIPA 1",
+      "X MIPA 2",
+      "X MIPA 3",
+      "X MIPA 4",
+      "X MIPA 5",
+      "X MIPA 6",
+      "X IIK 1",
+      "X IIK 2",
+      "X IPS 1",
+      "X IPS 2",
+      "X IPS 3",
+      "X IBB"
+    ],
+    kelas_XI : [
+      "XI MIPA 1",
+      "XI MIPA 2",
+      "XI MIPA 3",
+      "XI MIPA 4",
+      "XI MIPA 5",
+      "XI MIPA 6",
+      "XI IIK 1",
+      "XI IIK 2",
+      "XI IPS 1",
+      "XI IPS 2",
+      "XI IPS 3",
+      "XI IBB"
+    ],
+  kelas_XII: [
+    "XII MIPA 1",
+    "XII MIPA 2",
+    "XII MIPA 3",
+    "XII MIPA 4",
+    "XII MIPA 5",
+    "XII MIPA 6",
+    "XII IIK 1",
+    "XII IIK 2",
+    "XII IPS 1",
+    "XII IPS 2",
+    "XII IPS 3",
+    "XII IBB"
+  ]
+  }
+
+  const pwInputRef = React.createRef();
   
   const SignUpHandler = async (e) => {
     e.preventDefault()
-    if(email == "" || emailWali == "" || username == "" || HPwali == "" || HPsiswa == "" || classFor == "") {
+    if(email == "" || emailWali == "" || username == "" || HPwali == "" || HPsiswa == "" || classFor == "pilih") {
       setErrorMsg("tolong lengkapi formulir")
     }else{
       if(password == "") {
@@ -53,11 +101,10 @@ const SignUp = () => {
               timestamp: Timestamp.fromDate(new Date())
             })
 
-            localStorage.setItem('docId', )
-            localStorage.setItem('currentUser', JSON.stringify(user))
-
+            
             console.log(user)
             console.log(addUser)
+            localStorage.setItem('currentUser', JSON.stringify(user))
             navigate("/")
           }
         } catch (err) {
@@ -71,6 +118,10 @@ const SignUp = () => {
       }
     }
   }
+
+  const toggleInputType = () => {
+    setInputType(inputType === 'password' ? 'text' : 'password');
+  };
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 min-h-screen flex flex-col lg:px-8 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')]">
@@ -100,9 +151,9 @@ const SignUp = () => {
           </div>
 
           <div className="relative mt-4">
-          <input type='password' onChange={(e) => {setPassword(e.target.value)}} name='password' placeholder='password' className='w-full flex justify-center gap-2 text-black hover:scale-105 text-sm duration-300 rounded-md border border-neutral-200 p-4'/>  
-            <span className="absolute text-gray-600 inset-y-0 end-0 grid place-content-center px-4">
-              <MdOutlinePassword/>
+          <input type={inputType} ref={pwInputRef} id='pw' onChange={(e) => {setPassword(e.target.value)}} name='password' placeholder='password' className='w-full flex justify-center gap-2 text-black hover:scale-105 text-sm duration-300 rounded-md border border-neutral-200 p-4'/>  
+            <span className="absolute text-gray-600 inset-y-0 end-0 grid place-content-center px-4" >
+              <FaRegEye onClick={toggleInputType}/>
             </span>
           </div>
         </div>
@@ -117,7 +168,24 @@ const SignUp = () => {
           </div>
 
           <div className="relative mt-4">
-            <input onChange={(e) => {setClassFor(e.target.value)}} type='text' autoComplete='off' placeholder='kelas siswa' className='w-full flex justify-center gap-2 text-black hover:scale-105 text-sm duration-300 rounded-md border border-neutral-200 p-4'/>  
+            <select onChange={(e) => {setClassFor(e.target.value)}} type='text' autoComplete='off' placeholder='kelas siswa' className='w-full flex justify-center gap-2 text-black hover:scale-105 text-sm duration-300 rounded-md border border-neutral-200 p-4'>
+              <option value='pilih'>Pilih Kelas</option>
+              <optgroup label='KELAS X'>
+                {classForData?.kelas_X.map((doc) => (
+                  <option key={doc} value={doc}>{doc}</option>
+                ))}
+              </optgroup>
+              <optgroup label='KELAS XI'>
+                {classForData?.kelas_XI.map((doc) => (
+                  <option key={doc} value={doc}>{doc}</option>
+                ))}
+              </optgroup>
+              <optgroup label='KELAS XII'>
+                {classForData?.kelas_XII.map((doc) => (
+                  <option key={doc} value={doc}>{doc}</option>
+                ))}
+              </optgroup>
+            </select>
             <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
               <FaSquarePhoneFlip/>
             </span>
