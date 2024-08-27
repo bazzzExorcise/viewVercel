@@ -47,7 +47,7 @@ const Riwayat = () => {
                 <h3 className="font-bold uppercase text-gray-900">{doc.subject}</h3>
               </a>
 
-              <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-700">anda telah melakukan absensi paaada pelajaran {doc.waktu_absen}</p>
+              <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-700">anda telah melakukan absensi pada pelajaran {doc.waktu_absen}</p>
             </div>
           </div>
         </div>
