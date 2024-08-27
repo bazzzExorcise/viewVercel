@@ -10,6 +10,7 @@ import DetailTugas from './components/DetailTugas';
 const Teacher = () => {
   const [data, setData] = useState()
   const [dataTugas, setDataTugas] = useState()
+  const [absensi, setAbsensi] = useState()
   const { teacherId } = useParams()
 
   useEffect(() => {
@@ -34,6 +35,18 @@ const Teacher = () => {
       console.log(data)
     }
 
+    const getDataAbsensi = async () => {
+      const day = new Date().getDay() 
+      const days = new Date().getDate() 
+      let list = []
+      const q = query(collection(db, "absen"), where('teacher', '==', teacherName), where('day', '==', day), where('days', '==', days))
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach((doc) => {
+        list.push({id: doc.id, data:doc.data()})
+      })
+      setAbsensi(list)
+    }
+
     const getDataTugas = async () => {
       let list = []
       const q = query(collection(db, "tugas"), where('teacher', '==', teacherName))
@@ -45,8 +58,9 @@ const Teacher = () => {
       console.log(dataTugas)
     }
   
-  getData()
-  getDataTugas()
+    getDataAbsensi()
+    getData()
+    getDataTugas()
   }, [teacherId])
 
   const nameFixing = (e) => {
@@ -63,6 +77,8 @@ const Teacher = () => {
 
     return teacherName
   }
+
+  let id = 0
 
   return (
     <div>
@@ -87,6 +103,35 @@ const Teacher = () => {
       </header>
       <div className="w-full px-4 mt-2 sm:px-20">
         <ButtonCardBg to={"/admin/addtugas/" + teacherId} text="tambah tugas" />
+      </div>
+      <div className="flex bg-white w-full rounded flex-col justify-start items-start mt-4 px-4 sm:px-20">
+        <div className=" flex gap-2 p-4">
+          <h1 className="text-4xl font-bold">25</h1>
+          <div className="flex flex-col">
+            <h2 className="text-lg font-bold">Siswa Absen Hari ini</h2>
+            <p className="text-gray-600">ada 24 siswa absen haari ini</p>
+          </div>
+        </div>
+        <div className="overflow-x-auto mt-4 w-full">
+          <table className="table-auto w-full h-40">
+            <thead>
+              <tr>
+                <th className="text-start px-4 py-2">ID</th>
+                <th className="text-start px-4 py-2">Username</th>
+                <th className="text-start px-4 py-2">Date Time</th>
+              </tr>
+            </thead>
+            <tbody>
+            {absensi?. map((doc) => (
+              <tr key={doc.id}>
+                <td className="px-4 py-2">{id ++}</td>
+                <td className="px-4 py-2">John Doe</td>
+                <td className="px-4 py-2">2022-01-01 10:00</td>
+              </tr>
+            ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className='w-full pt-4 gap-2 px-4 grid sm:grid-cols-2 sm:px-20 lg:grid-cols-4'>
         {data?.map((doc) => (

@@ -96,8 +96,8 @@ const Scan = () => {
           console.log("failure");
         });
 
-        navigate("/")  
         console.log(addScanData)
+        navigate("/")  
       } catch(err) {
         console.log(err)
         setError(err)

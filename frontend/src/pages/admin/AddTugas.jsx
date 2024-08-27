@@ -13,9 +13,7 @@ const AddTugas = () => {
 
   const addingFile = async (e) => {
     e.preventDefault()
-    if (file == undefined) {
-      setImageLink('no image link')
-    }else{
+    if (file != undefined) {
       const name = new Date().getTime() + file.name
       console.log(name)
       const storageRef = ref(storage, name);
@@ -43,6 +41,8 @@ const AddTugas = () => {
           });
         }
       );
+    }else{
+      setImageLink('no image link')
     }
 
     const idFixing = (e) => {
