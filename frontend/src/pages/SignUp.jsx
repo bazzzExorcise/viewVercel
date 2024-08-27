@@ -25,23 +25,11 @@ const SignUp = () => {
   const [emailWali, setEmailWali] = useState("")
   const [username, setUsername] = useState("")
   const [uid, setUid] = useState("")
-
-  // const UIDmaker = () => {
-  //   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  //   let result = '';
-  //   const length = 20;
-    
-  //   for (let i = 0; i <= length; i++) {
-  //     result += characters.charAt(Math.floor(Math.random() * characters.length));
-  //   }
-  //   return result
-  // }
-
-  // setUid(UIDmaker);
+  const [classFor, setClassFor] = useState("")
   
   const SignUpHandler = async (e) => {
     e.preventDefault()
-    if(email == "" || emailWali == "" || username == "" || HPwali == "" || HPsiswa == "") {
+    if(email == "" || emailWali == "" || username == "" || HPwali == "" || HPsiswa == "" || classFor == "") {
       setErrorMsg("tolong lengkapi formulir")
     }else{
       if(password == "") {
@@ -61,6 +49,7 @@ const SignUp = () => {
               email_wali: emailWali,
               hp_siswa: HPsiswa,
               hp_wali: HPwali,
+              class: classFor,
               timestamp: Timestamp.fromDate(new Date())
             })
 
@@ -122,6 +111,13 @@ const SignUp = () => {
           <p className='text-center'>tulis yah kelengkapanya</p>
           <div className="relative mt-4">
             <input onChange={(e) => {setUsername(e.target.value)}} type='text' autoComplete='off' placeholder='nama anda(siswa)' className='w-full flex justify-center gap-2 text-black hover:scale-105 text-sm duration-300 rounded-md border border-neutral-200 p-4'/>  
+            <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+              <FaSquarePhoneFlip/>
+            </span>
+          </div>
+
+          <div className="relative mt-4">
+            <input onChange={(e) => {setClassFor(e.target.value)}} type='text' autoComplete='off' placeholder='kelas siswa' className='w-full flex justify-center gap-2 text-black hover:scale-105 text-sm duration-300 rounded-md border border-neutral-200 p-4'/>  
             <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
               <FaSquarePhoneFlip/>
             </span>
